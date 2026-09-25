@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Customer Churn Prediction</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+{% set f = form_data if form_data else {} %}
+
+<nav class="navbar">
+    <div class="logo">ChurnAI</div>
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#problem">Problem</a>
+        <a href="#solution">Solution</a>
+        <a href="#results">Results</a>
+        <a href="#demo">Demo</a>
+        <a href="#takeaways">Takeaways</a>
+    </div>
+</nav>
+
+<section id="home" class="hero">
+    <div class="hero-text">
+        <span class="tag">AI for Business Innovation</span>
+        <h1>AI-Powered Customer Churn Prediction System</h1>
+        <p>
+            This project uses machine learning to identify customers who are likely to leave,
+            helping businesses take proactive retention actions.
+        </p>
+        <a href="#demo" class="primary-btn">Try Demo</a>
+    </div>
+
+    <div class="hero-card">
+        <h3>Business Goal</h3>
+        <p>Predict churn before it happens.</p>
+        <h3>AI Method</h3>
+        <p>Random Forest + SMOTE + Threshold Tuning</p>
+        <h3>Final Output</h3>
+        <p>Churn probability and business recommendation.</p>
+    </div>
+</section>
+
+<section id="problem" class="section">
+    <h2>Business Problem</h2>
+    <p>
+        Customer churn is a major challenge for subscription-based businesses.
+        Losing customers reduces revenue, increases acquisition costs, and lowers long-term profitability.
+    </p>
+
+    <div class="workflow">
+        <div>Customer Data</div>
+        <span>→</span>
+        <div>AI Prediction</div>
+        <span>→</span>
+        <div>At-Risk Customers</div>
+        <span>→</span>
+        <div>Retention Action</div>
+    </div>
+</section>
+
+<section id="solution" class="section">
+    <h2>AI Solution Design</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Machine Learning</h3>
+            <p>Supervised classification was used to predict churn.</p>
+        </div>
+        <div class="card">
+            <h3>Random Forest</h3>
+            <p>Selected because it performed better for churn recall.</p>
+        </div>
+        <div class="card">
+            <h3>SMOTE</h3>
+            <p>Used to handle class imbalance in the churn dataset.</p>
+        </div>
+        <div class="card">
+            <h3>Flask Website</h3>
+            <p>Integrated the model into an interactive web demo.</p>
+        </div>
+    </div>
+</section>
+
+<section id="implementation" class="section">
+    <h2>Implementation Process</h2>
+
+    <div class="timeline">
+        <div><strong>1.</strong> Dataset preprocessing</div>
+        <div><strong>2.</strong> One-hot encoding</div>
+        <div><strong>3.</strong> 80/20 train-test split</div>
+        <div><strong>4.</strong> SMOTE balancing</div>
+        <div><strong>5.</strong> Model training and evaluation</div>
+        <div><strong>6.</strong> Flask deployment</div>
+    </div>
+</section>
+
+<section id="results" class="section">
+    <h2>Results & Business Impact</h2>
+
+    <div class="metrics">
+        <div class="metric">
+            <h3>80.8%</h3>
+            <p>Accuracy</p>
+        </div>
+        <div class="metric">
+            <h3>53%</h3>
+            <p>Churn Recall</p>
+        </div>
+        <div class="metric">
+            <h3>88</h3>
+            <p>Detected Churn Customers</p>
+        </div>
+    </div>
+
+    <p class="insight">
+        The model prioritizes identifying at-risk customers. This is useful for businesses because
+        detecting churn early allows retention teams to contact customers before they leave.
+    </p>
+</section>
+
+<section id="features" class="section">
+    <h2>Key Drivers of Customer Churn</h2>
+
+    <img class="chart-img" src="{{ url_for('static', filename='images/feature_importance.png') }}">
+
+    <p class="insight">
+        Feature importance shows that customer satisfaction, tenure, engagement, revenue,
+        and contract-related variables strongly influence churn behavior.
+    </p>
+</section>
+
+<section id="comparison" class="section">
+    <h2>Model Comparison</h2>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Random Forest</th>
+            <th>Neural Network</th>
+        </tr>
+        <tr>
+            <td>Accuracy</td>
+            <td>80.8%</td>
+            <td>82.0%</td>
+        </tr>
+        <tr>
+            <td>Churn Recall</td>
+            <td>53%</td>
+            <td>25%</td>
+        </tr>
+        <tr>
+            <td>F1 Score</td>
+            <td>0.36</td>
+            <td>0.22</td>
+        </tr>
+    </table>
+
+    <p class="insight">
+        Although the Neural Network had slightly higher accuracy, Random Forest was selected
+        because it detected more churn customers, which is more valuable for retention.
+    </p>
+</section>
+
+<section id="demo" class="section demo-section">
+    <h2>Interactive Churn Prediction Demo</h2>
+    <p>Enter customer details below to generate a churn prediction and business recommendation.</p>
+
+    <form method="POST" class="form-grid">
+
+        <label>Gender</label>
+        <select name="gender">
+            <option value="Male" {% if f.get('gender') == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if f.get('gender') == 'Female' %}selected{% endif %}>Female</option>
+        </select>
+
+        <label>Age</label>
+        <input type="number" name="age" value="{{ f.get('age', 35) }}" required>
+
+        <label>Country</label>
+        <input type="text" name="country" value="{{ f.get('country', 'India') }}" required>
+
+        <label>City</label>
+        <input type="text" name="city" value="{{ f.get('city', 'London') }}" required>
+
+        <label>Customer Segment</label>
+        <select name="customer_segment">
+            <option value="Individual" {% if f.get('customer_segment') == 'Individual' %}selected{% endif %}>Individual</option>
+            <option value="SME" {% if f.get('customer_segment') == 'SME' %}selected{% endif %}>SME</option>
+            <option value="Enterprise" {% if f.get('customer_segment') == 'Enterprise' %}selected{% endif %}>Enterprise</option>
+        </select>
+
+        <label>Tenure Months</label>
+        <input type="number" name="tenure_months" value="{{ f.get('tenure_months', 12) }}" required>
+
+        <label>Signup Channel</label>
+        <select name="signup_channel">
+            <option value="Web" {% if f.get('signup_channel') == 'Web' %}selected{% endif %}>Web</option>
+            <option value="Mobile" {% if f.get('signup_channel') == 'Mobile' %}selected{% endif %}>Mobile</option>
+            <option value="Referral" {% if f.get('signup_channel') == 'Referral' %}selected{% endif %}>Referral</option>
+        </select>
+
+        <label>Contract Type</label>
+        <select name="contract_type">
+            <option value="Monthly" {% if f.get('contract_type') == 'Monthly' %}selected{% endif %}>Monthly</option>
+            <option value="Yearly" {% if f.get('contract_type') == 'Yearly' %}selected{% endif %}>Yearly</option>
+        </select>
+
+        <label>Monthly Logins</label>
+        <input type="number" name="monthly_logins" value="{{ f.get('monthly_logins', 10) }}" required>
+
+        <label>Weekly Active Days</label>
+        <input type="number" name="weekly_active_days" value="{{ f.get('weekly_active_days', 3) }}" required>
+
+        <label>Average Session Time</label>
+        <input type="number" step="0.01" name="avg_session_time" value="{{ f.get('avg_session_time', 20) }}" required>
+
+        <label>Features Used</label>
+        <input type="number" name="features_used" value="{{ f.get('features_used', 3) }}" required>
+
+        <label>Usage Growth Rate</label>
+        <input type="number" step="0.01" name="usage_growth_rate" value="{{ f.get('usage_growth_rate', -0.1) }}" required>
+
+        <label>Last Login Days Ago</label>
+        <input type="number" name="last_login_days_ago" value="{{ f.get('last_login_days_ago', 10) }}" required>
+
+        <label>Monthly Fee</label>
+        <input type="number" step="0.01" name="monthly_fee" value="{{ f.get('monthly_fee', 30) }}" required>
+
+        <label>Total Revenue</label>
+        <input type="number" step="0.01" name="total_revenue" value="{{ f.get('total_revenue', 360) }}" required>
+
+        <label>Payment Method</label>
+        <select name="payment_method">
+            <option value="Card" {% if f.get('payment_method') == 'Card' %}selected{% endif %}>Card</option>
+            <option value="PayPal" {% if f.get('payment_method') == 'PayPal' %}selected{% endif %}>PayPal</option>
+            <option value="Bank Transfer" {% if f.get('payment_method') == 'Bank Transfer' %}selected{% endif %}>Bank Transfer</option>
+        </select>
+
+        <label>Payment Failures</label>
+        <input type="number" name="payment_failures" value="{{ f.get('payment_failures', 1) }}" required>
+
+        <label>Discount Applied</label>
+        <select name="discount_applied">
+            <option value="Yes" {% if f.get('discount_applied') == 'Yes' %}selected{% endif %}>Yes</option>
+            <option value="No" {% if f.get('discount_applied') == 'No' %}selected{% endif %}>No</option>
+        </select>
+
+        <label>Price Increase Last 3 Months</label>
+        <select name="price_increase_last_3m">
+            <option value="Yes" {% if f.get('price_increase_last_3m') == 'Yes' %}selected{% endif %}>Yes</option>
+            <option value="No" {% if f.get('price_increase_last_3m') == 'No' %}selected{% endif %}>No</option>
+        </select>
+
+        <label>Support Tickets</label>
+        <input type="number" name="support_tickets" value="{{ f.get('support_tickets', 2) }}" required>
+
+        <label>Average Resolution Time</label>
+        <input type="number" step="0.01" name="avg_resolution_time" value="{{ f.get('avg_resolution_time', 20) }}" required>
+
+        <label>Complaint Type</label>
+        <select name="complaint_type">
+            <option value="Technical" {% if f.get('complaint_type') == 'Technical' %}selected{% endif %}>Technical</option>
+            <option value="Billing" {% if f.get('complaint_type') == 'Billing' %}selected{% endif %}>Billing</option>
+            <option value="Service" {% if f.get('complaint_type') == 'Service' %}selected{% endif %}>Service</option>
+            <option value="None" {% if f.get('complaint_type') == 'None' %}selected{% endif %}>None</option>
+        </select>
+
+        <label>CSAT Score</label>
+        <input type="number" step="0.1" name="csat_score" value="{{ f.get('csat_score', 3) }}" required>
+
+        <label>Escalations</label>
+        <input type="number" name="escalations" value="{{ f.get('escalations', 0) }}" required>
+
+        <label>Email Open Rate</label>
+        <input type="number" step="0.01" name="email_open_rate" value="{{ f.get('email_open_rate', 0.5) }}" required>
+
+        <label>Marketing Click Rate</label>
+        <input type="number" step="0.01" name="marketing_click_rate" value="{{ f.get('marketing_click_rate', 0.2) }}" required>
+
+        <label>NPS Score</label>
+        <input type="number" name="nps_score" value="{{ f.get('nps_score', 20) }}" required>
+
+        <label>Survey Response</label>
+        <select name="survey_response">
+            <option value="Satisfied" {% if f.get('survey_response') == 'Satisfied' %}selected{% endif %}>Satisfied</option>
+            <option value="Neutral" {% if f.get('survey_response') == 'Neutral' %}selected{% endif %}>Neutral</option>
+            <option value="Unsatisfied" {% if f.get('survey_response') == 'Unsatisfied' %}selected{% endif %}>Unsatisfied</option>
+        </select>
+
+        <label>Referral Count</label>
+        <input type="number" name="referral_count" value="{{ f.get('referral_count', 1) }}" required>
+
+        <button type="submit">Predict Churn</button>
+    </form>
+
+    {% if prediction %}
+        <div class="result">
+            <h2>{{ prediction }}</h2>
+            <p>Churn Probability: {{ probability }}%</p>
+            <p>{{ recommendation }}</p>
+        </div>
+    {% endif %}
+</section>
+
+<section id="takeaways" class="section">
+    <h2>Key Takeaways</h2>
+
+    <div class="cards">
+        <div class="card">
+            <h3>Business Insight</h3>
+            <p>Customer satisfaction is the strongest churn indicator.</p>
+        </div>
+        <div class="card">
+            <h3>Model Insight</h3>
+            <p>Recall is more important than accuracy for churn detection.</p>
+        </div>
+        <div class="card">
+            <h3>Action</h3>
+            <p>At-risk customers should receive retention offers or support follow-ups.</p>
+        </div>
+    </div>
+
+    <a class="download-btn" href="/static/customer_churn_summary.pdf" download>
+        Download Summary
+    </a>
+</section>
+
+<footer>
+    <p>AI for Business Innovation | Customer Churn Prediction Case Study</p>
+</footer>
+
+</body>
+</html>
